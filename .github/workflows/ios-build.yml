@@ -24,17 +24,15 @@ jobs:
 
       - name: Generate Xcode project
         run: |
-          cd IndustrialConfigurator
           xcodegen generate
 
       - name: List generated files
         run: |
-          ls -la IndustrialConfigurator/
-          ls -la IndustrialConfigurator/*.xcodeproj/ || echo "No xcodeproj found"
+          ls -la
+          ls -la *.xcodeproj/ || echo "No xcodeproj found"
 
       - name: Build iOS app
         run: |
-          cd IndustrialConfigurator
           xcodebuild -scheme IndustrialConfigurator \
             -destination 'generic/platform=iOS' \
             -configuration Release \
@@ -46,7 +44,6 @@ jobs:
 
       - name: Check build result
         run: |
-          cd IndustrialConfigurator
           if grep -q "BUILD SUCCEEDED" build.log; then
             echo "✅ Build succeeded!"
             exit 0
@@ -60,5 +57,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-log
-          path: IndustrialConfigurator/build.log
+          path: build.log
           retention-days: 7
